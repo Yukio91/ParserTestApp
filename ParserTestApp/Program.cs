@@ -11,12 +11,11 @@ namespace ParserTestApp
         {
             var url = @"https://www.kellysubaru.com/used-inventory/index.htm";
 
-
             try
             {
                 var htmlDoc = new HtmlWeb().Load(url);
 
-                var inventoryList = htmlDoc.DocumentNode.SelectSingleNode("//ul[@class='inventoryList data full list-unstyled']")?.ChildNodes.Where(li => li.Name == "li");
+                var inventoryList = htmlDoc.DocumentNode.SelectSingleNode("//ul[@class='inventoryList data full list-unstyled']")?.ChildNodes.Where(li => li.Name == "li").ToList();
                 if (!(inventoryList?.Any() ?? false))
                     return;
 
@@ -24,7 +23,7 @@ namespace ParserTestApp
                 if (selectedNode == null)
                     return;
 
-                var car = CarManager.ParseCarInfo(selectedNode);
+                var car = CarHelper.ParseCar(selectedNode);
 
                 Console.WriteLine(car);
                 Console.ReadKey();
